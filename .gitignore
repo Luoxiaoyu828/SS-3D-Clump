@@ -1,0 +1,19 @@
+/.idea
+/constrained-seed-KMeans-master
+/data
+/DensityClust_Matlab 1.2]
+/model
+/model_ulti/__pycache__
+/__pycache__
+/model_ulti/model_config
+/model_ulti/multi-fits-cubes-py-main
+/model_ulti/model_3dcnn.py
+/model_ulti/__init__.py
+
+deep_clustering_first.py
+deep_clustering_odc.py
+deep_clustering_odc_new.py
+deep_clustering_old.py
+deep_clustering_second.py
+pre_data_1.py
+resnet_3.py
