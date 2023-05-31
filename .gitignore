@@ -9,6 +9,7 @@
 /model_ulti/multi-fits-cubes-py-main
 /model_ulti/model_3dcnn.py
 /model_ulti/__init__.py
+/paper_data
 
 deep_clustering_first.py
 deep_clustering_odc.py
