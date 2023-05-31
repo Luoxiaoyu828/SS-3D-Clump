@@ -4,3 +4,5 @@ The authors propose a DeepConCluster that combines deep learning features with t
 ![](images/model_structure.png)
 
 ![](images/3dcnn_structure.png)
+
+![](images/model_verify.png)
