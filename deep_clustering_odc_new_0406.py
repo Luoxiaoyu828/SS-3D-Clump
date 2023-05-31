@@ -512,7 +512,7 @@ if __name__ == '__main__':
         elif para_dict['region'] == 'R16':
             data_set_path = r'/home/data/clumps_share/real_data_cube_set/R16_clumps_masked/R16_150/train/'
             data_test_path = r'/home/data/clumps_share/real_data_cube_set/R16_clumps_masked/R16_150/test'
-            seed_samples_path = r'/home/data/clumps_share/real_data_cube_set/G0100+00_masked/seed_samples/'
+            seed_samples_path = r'/home/data/clumps_share/real_data_cube_set/R16_clumps_masked/R16_150/seed_samples/'
         elif para_dict['region'] == 'G0100':
             data_set_path = '/home/data/clumps_share/real_data_cube_set/G0100+00_masked/train_data2/'
             data_test_path = r'/home/data/clumps_share/real_data_cube_set/G0100+00_masked/test_data2/'
@@ -522,8 +522,9 @@ if __name__ == '__main__':
             seed_samples_path = r'/home/data/clumps_share/real_data_cube_set/R2_clumps_masked/seed_samples'
             data_test_path = r'/home/data/clumps_share/real_data_cube_set/R2_clumps_masked/test1_revise_again'
 
-        log_dir = os.path.join('model', 'model_%s_to_%s_test_%s' % (para_dict['model'],
-            para_dict['region'], para_dict['savepath_log']))
+        log_dir = os.path.join('model', 'model_%s_to_%s_test_%s' % (
+        para_dict['model'], para_dict['region'], para_dict['savepath_log']))
+
         os.makedirs(log_dir, exist_ok=True)
         epoch_model_path = os.path.join(log_dir, 'epoch_model')
         os.makedirs(epoch_model_path, exist_ok=True)

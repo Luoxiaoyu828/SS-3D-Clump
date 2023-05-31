@@ -1,0 +1,10 @@
+model_path: model/R2_feature_256_block_1_test_seed_0507_ratio_040_02/epoch_model/model_019.h5
+n_clusters: 2
+num_epochs: 70
+batch_size: 1000
+feature_num: 256
+block_num: 1
+learning rate: 0.005
+region: R16
+savepath_log: seed_0507_ratio_050_01
+train_num: 5

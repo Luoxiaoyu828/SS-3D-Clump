@@ -1,0 +1,10 @@
+model_path: model/G0100_feature_256_block_1_test_seed_0507_ratio_020_01/epoch_model/model_117.h5
+n_clusters: 2
+num_epochs: 40
+batch_size: 1000
+feature_num: 256
+block_num: 1
+learning rate: 0.005
+region: G0100
+savepath_log: seed_0507_ratio_020_01
+train_num: 20
