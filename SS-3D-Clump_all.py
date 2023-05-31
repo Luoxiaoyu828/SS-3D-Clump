@@ -12,7 +12,7 @@ from ConstrainedKMeans.src.ConstrainedKMeans import ConstrainedKMeans as CKM
 
 from model_ulti.make_pic import get_p_distribution, plot_train_result, plot_test_acc_nmi, \
     plot_test_acc_reassign, decisionGraph
-from deep_clustering import load_dataset, BasicBlock
+from deep_clustering import load_dataset, BasicBlock, load_dataset_all
 
 
 np.random.seed(1)
@@ -66,6 +66,7 @@ class ResNet_dc(tf.keras.Model):
 
         return x, extrect_feature
 
+
 def loss(model, x, y, weight=False):
     # training=training is needed only if there are layers with different
     # behavior during training versus inference (e.g. Dropout).
@@ -83,12 +84,14 @@ def loss(model, x, y, weight=False):
 
     return loss0
 
+
 def grad(model, x, y, weight=False):
 
     with tf.GradientTape() as tape:
         loss_value = loss(model, x, y, weight=weight)
     grads = tape.gradient(loss_value, model.trainable_variables)
     return loss_value, grads
+
 
 def re_sign_label(cen_new, cen_old, label_new, label_old):
     # update cluster --> y_pseudo
@@ -109,6 +112,7 @@ def re_sign_label(cen_new, cen_old, label_new, label_old):
     print('%s: %.1f, %.1f' % (aa, NMI_0, NMI_1))
     return cen_new, label
 
+
 def get_r_p_f1_loss(y_true_all, y_pred_all):
 
     recall = recall_score(y_true_all, y_pred_all.argmax(1))
@@ -119,10 +123,12 @@ def get_r_p_f1_loss(y_true_all, y_pred_all):
     accuracy = accuracy_score(y_true_all, y_pred_all.argmax(1))  # 模型预测的准确率
     return recall, precision, f1, confusion, loss_value, accuracy
 
+
 def save_paraset(result_path_para, para_dict):
     with open(result_path_para, 'w') as ww:
         for key, values in zip(para_dict.keys(), para_dict.values()):
             print('{}: {}'.format(key, values), file=ww)
+
 
 def get_stable_samples_idx(feature_all, pseudo_label, ratio, cluster_id=1):
     """
@@ -146,6 +152,7 @@ def get_stable_samples_idx(feature_all, pseudo_label, ratio, cluster_id=1):
     idx_1_ = np.where(cdistance <= cd_1_th)[0]
 
     return idx[idx_1_]
+
 
 def get_stable_pseudo_label(feature_all, pseudo_label, can_change, ratio=0.5):
     """
@@ -192,6 +199,7 @@ def get_stable_pseudo_label(feature_all, pseudo_label, can_change, ratio=0.5):
 
     return idx
 
+
 def get_dataset(pseudo_label, x_dataset, index_dataset, batch_size=1000):
     pseudo_label_hot = tf.keras.utils.to_categorical(pseudo_label, num_classes=2)
     pseudo_labels_dataset = tf.data.Dataset.from_tensor_slices(pseudo_label_hot)
@@ -208,27 +216,25 @@ if __name__ == '__main__':
         # model_path = r'model/G0100_feature_256_block_1_test_seed_0507_ratio_020_01/epoch_model/model_117.h5'
         model_path = r'model/R2_feature_256_block_1_test_seed_0507_ratio_040_05/epoch_model/model_025.h5'
         # model_path = r'model/R16_feature_256_block_1_test_seed_0507_ratio_050_01/epoch_model/model_025.h5'
-        para_dict = {'model_path': model_path, 'n_clusters': 2, 'num_epochs': 5, 'batch_size': 1000,
-                     'feature_num': feat_num, 'block_num': 1, 'learning rate': 0.005, 'region': 'R16',
-                     'savepath_log': 'fine_tuning_%03d_01rgerg' % (100*ratio), 'train_num': 5,
-                     'model': 'R2'}
+        para_dict = {'model_path': model_path, 'n_clusters': 2, 'num_epochs': 20, 'batch_size': 1000,
+                     'feature_num': feat_num, 'block_num': 1, 'learning rate': 0.005, 'region': 'All',
+                     'savepath_log': 'model_all_%03d' % (100*ratio), 'train_num': 5, 'model': 'R2'}
 
-        if para_dict['region'] == 'M16':
-            data_set_path = r'/home/data/clumps_share/real_data_cube_set/M16_clumps/train'
-            data_test_path = r'/home/data/clumps_share/real_data_cube_set/M16_clumps/test'
-            seed_samples_path = ''
-        elif para_dict['region'] == 'R16':
-            data_set_path = r'/home/data/clumps_share/real_data_cube_set/R16_clumps_masked/R16_150/train/'
-            data_test_path = r'/home/data/clumps_share/real_data_cube_set/R16_clumps_masked/R16_150/test'
-            seed_samples_path = r'/home/data/clumps_share/real_data_cube_set/G0100+00_masked/seed_samples/'
-        elif para_dict['region'] == 'G0100':
-            data_set_path = '/home/data/clumps_share/real_data_cube_set/G0100+00_masked/train_data2/'
-            data_test_path = r'/home/data/clumps_share/real_data_cube_set/G0100+00_masked/test_data2/'
-            seed_samples_path = r'/home/data/clumps_share/real_data_cube_set/G0100+00_masked/seed_samples/'
-        else:
-            data_set_path = r'/home/data/clumps_share/real_data_cube_set/R2_clumps_masked/train1'
-            seed_samples_path = r'/home/data/clumps_share/real_data_cube_set/R2_clumps_masked/seed_samples'
-            data_test_path = r'/home/data/clumps_share/real_data_cube_set/R2_clumps_masked/test1_revise_again'
+        data_set_path_R16 = r'/home/data/clumps_share/real_data_cube_set/R16_clumps_masked/R16_150/train/'
+        data_test_path_R16 = r'/home/data/clumps_share/real_data_cube_set/R16_clumps_masked/R16_150/test'
+        seed_samples_path_R16 = r'/home/data/clumps_share/real_data_cube_set/G0100+00_masked/seed_samples/'
+
+        data_set_path_G0100 = '/home/data/clumps_share/real_data_cube_set/G0100+00_masked/train_data2/'
+        data_test_path_G0100 = r'/home/data/clumps_share/real_data_cube_set/G0100+00_masked/test_data2/'
+        seed_samples_path_G0100 = r'/home/data/clumps_share/real_data_cube_set/G0100+00_masked/seed_samples/'
+
+        data_set_path_R2 = r'/home/data/clumps_share/real_data_cube_set/R2_clumps_masked/train1'
+        seed_samples_path_R2 = r'/home/data/clumps_share/real_data_cube_set/R2_clumps_masked/seed_samples'
+        data_test_path_R2 = r'/home/data/clumps_share/real_data_cube_set/R2_clumps_masked/test1_revise_again'
+
+        data_set_path_list = [data_set_path_R16, data_set_path_G0100, data_set_path_R2]
+        seed_samples_path_list = [seed_samples_path_R16, seed_samples_path_G0100, seed_samples_path_R2]
+        data_test_path_list = [data_test_path_R16, data_test_path_G0100, data_test_path_R2]
 
         log_dir = os.path.join('model', 'model_%s_to_%s_test_%s' % (para_dict['model'],
             para_dict['region'], para_dict['savepath_log']))
@@ -254,10 +260,10 @@ if __name__ == '__main__':
         result_path = os.path.join(log_dir, 'r_p_f1_loss_%03d.csv' % epoch_od)
         result_path_para = os.path.join(log_dir, 'para_set_%03d.txt' % epoch_od)
 
-        dataset = load_dataset(data_set_path, batch_size=para_dict['batch_size'])
-        dataset_seed = load_dataset(seed_samples_path, batch_size=para_dict['batch_size'])
-        seed_samples_num = len(os.listdir(seed_samples_path))
-        sample_num = len(os.listdir(data_set_path)) + seed_samples_num
+        dataset, sample_train_num = load_dataset_all(data_set_path_list, batch_size=para_dict['batch_size'])
+        dataset_seed, seed_samples_num = load_dataset_all(seed_samples_path_list, batch_size=para_dict['batch_size'])
+        dataset_test, sample_test_num = load_dataset_all(data_test_path_list, batch_size=para_dict['batch_size'])
+        sample_num = sample_train_num + seed_samples_num
         print('x_dataset over')
 
         feature_all = np.zeros((sample_num, para_dict['feature_num']), np.float32)   # 模型提取的特征
@@ -265,9 +271,6 @@ if __name__ == '__main__':
 
         y_pred_all = np.zeros((sample_num, para_dict['n_clusters']), np.float32)       # 模型预测标签
         x_all = np.zeros((sample_num, 30, 30, 30, 1), np.float32)       # 样本数据
-
-        dataset_test = load_dataset(data_test_path, batch_size=para_dict['batch_size'])
-        sample_test_num = len(os.listdir(data_test_path))
 
         y_test_true = np.zeros([sample_test_num], np.float32)
         y_test_pred_all = np.zeros([sample_test_num, para_dict['n_clusters']], np.float32)
@@ -392,5 +395,3 @@ if __name__ == '__main__':
         plot_train_result(Result_df, savepath=png_path)
         plot_test_acc_reassign(Result_df, os.path.join(log_dir, 'model_trainig_reassign.png'))
         plot_test_acc_nmi(Result_df, os.path.join(log_dir, 'model_trainig.png'))
-
-    # plot_model(model, to_file=dot_img_file, show_shapes=True)

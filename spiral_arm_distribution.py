@@ -45,7 +45,7 @@ def cut_and_plot(x1=-16, x2=16, y1=-16, y2=16, rect=None):
 
     ax.set_xlabel('x (kpc)', fontsize=15)
     ax.set_ylabel('y (kpc)', fontsize=15)
-    ax.set_xticks(np.arange(x1 + abs(x1) % 5, x2 + 1, 5),  )
+    ax.set_xticks(np.arange(x1 + abs(x1) % 5, x2 + 1, 5),)
     ax.set_yticks(np.arange(y1 + abs(y1) % 5, y2 + 1, 5))
     ax.grid(alpha=0.1, c='gray', ls='--')
     ax.minorticks_on()

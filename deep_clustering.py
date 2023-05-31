@@ -105,5 +105,31 @@ def load_dataset(data_set_path, batch_size=3000):
     return dataset
 
 
+def load_dataset_all(data_set_path_list, batch_size=3000):
+    file_list_all = []
+    file_label_all = []
+    for data_set_path in data_set_path_list:
+        temp = os.listdir(data_set_path)
+        file_list1 = [os.path.join(data_set_path, item) for item in temp]
+        file_label1 = [item.split('_')[0] for item in temp]
+
+        file_list_all = file_list_all + file_list1
+        file_label_all = file_label_all + file_label1
+
+    samples_num = len(file_list_all)
+    file_label_all = np.array(file_label_all, np.int32)
+    features = tf.constant(file_list_all, tf.string, shape=(samples_num, 1))  # ==> 3x2 tensor
+    labels = tf.constant(file_label_all, shape=samples_num)  # ==> 3x1 tensor
+
+    features_dataset = tf.data.Dataset.from_tensor_slices(features)
+    labels_dataset = tf.data.Dataset.from_tensor_slices(labels)
+    dataset = tf.data.Dataset.zip((features_dataset, labels_dataset))
+    dataset = dataset.shuffle(buffer_size=samples_num)
+    dataset = dataset.map(tf_serialize_example)
+    dataset = dataset.batch(batch_size=batch_size)
+
+    return dataset, samples_num
+
+
 if __name__ == '__main__':
    pass
