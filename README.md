@@ -10,6 +10,7 @@ marked as known and which labels can change.
 Formally, the output of the algorithm is an array `labels` such that
 `np.all((labels[can_change == 0] == init_labels[can_change == 0]))` is `True`.
 
+<<<<<<< HEAD
 Can be installed via (requires Python>=3.7)
 ```bash
 pip install ConstrainedKMeans
@@ -66,3 +67,8 @@ if __name__ == '__main__':
 ```
 
 <img src="https://github.com/ferrocactus/ConstrainedKMeans/blob/master/images/example.png" style="zoom:72%;" />
+=======
+![](images/3dcnn_structure.png)
+
+![](images/model_verify.png)
+>>>>>>> d029ec5f1d5fd48cca39af267de344b1147eb1af
