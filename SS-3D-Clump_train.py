@@ -211,34 +211,26 @@ if __name__ == '__main__':
     for ratio in [0.4]:
         feat_num = 256
         load_model_wight = True
-        model_path = r'model/model_R2_to_R16_test_model_all_040/epoch_model/model_044.h5'
+        model_path = r'SS-3D-Clump_model/ss-3d-clump_model_all/deep_clustering_All.h5'
 
         para_dict = {'model_path': model_path, 'n_clusters': 2, 'num_epochs': 10, 'batch_size': 1000,
-                     'feature_num': feat_num, 'block_num': 1, 'learning rate': 0.005, 'region': 'All',
-                     'savepath_log': 'model_all_%03d_fellwalker_1' % (100*ratio), 'train_num': 5, 'model': 'R2'}
+                     'feature_num': feat_num, 'block_num': 1, 'learning rate': 0.005,
+                     'savepath_log': 'model_learning_ratio_%03d' % (100*ratio), 'train_num': 5, 'model': 'R2'}
 
-        data_set_path_R16 = r'/home/data/clumps_share/real_data_cube_set/background/R16_background/clump_dataset/'
-        data_test_path_R16 = r'/home/data/clumps_share/real_data_cube_set/background/R16_background/clump_dataset/'
-        seed_samples_path_R16 = r'/home/data/clumps_share/real_data_cube_set/background/R16_background/seed_samples/'
+        data_set_path_1 = r''
+        data_test_path_1 = r''
+        seed_samples_path_1 = r''
 
-        data_set_path_G0100 = '/home/data/clumps_share/real_data_cube_set/background/G100+00_background/clump_dataset/'
-        data_test_path_G0100 = r'/home/data/clumps_share/real_data_cube_set/background/G100+00_background/clump_dataset/'
-        seed_samples_path_G0100 = r'/home/data/clumps_share/real_data_cube_set/background/G100+00_background/seed_samples/'
+        data_set_path_list = [data_set_path_1]
+        seed_samples_path_list = [seed_samples_path_1]
+        data_test_path_list = [data_test_path_1]
 
-        data_set_path_R2 = r'/home/data/clumps_share/real_data_cube_set/background/R2_background/clump_dataset/'
-        data_test_path_R2 = r'/home/data/clumps_share/real_data_cube_set/background/R2_background/clump_dataset/'
-        seed_samples_path_R2 = r'/home/data/clumps_share/real_data_cube_set/background/R2_background/seed_samples/'
-
-        data_set_path_list = [data_set_path_R16, data_set_path_G0100, data_set_path_R2]
-        seed_samples_path_list = [seed_samples_path_R16, seed_samples_path_G0100, seed_samples_path_R2]
-        data_test_path_list = [data_test_path_R16, data_test_path_G0100, data_test_path_R2]
-
-        log_dir = os.path.join('model', 'model_%s_to_%s_test_%s' % (para_dict['model'],
-            para_dict['region'], para_dict['savepath_log']))
+        log_dir = 'model_record'
         os.makedirs(log_dir, exist_ok=True)
         epoch_model_path = os.path.join(log_dir, 'epoch_model')
-        os.makedirs(epoch_model_path, exist_ok=True)
         epoch_result_path = os.path.join(log_dir, 'epoch_result')
+
+        os.makedirs(epoch_model_path, exist_ok=True)
         os.makedirs(epoch_result_path, exist_ok=True)
 
         model = ResNet_dc([para_dict['block_num']], feature_num=para_dict['feature_num'], num_classes=2)
@@ -332,7 +324,7 @@ if __name__ == '__main__':
             dataset_new_stable = get_dataset(pseudo_label_, x_dataset_, index_dataset_, batch_size=para_dict['batch_size'])
             # Training loop - using batches of batch_size = 1000
 
-            # 每一次再跑5遍
+            # 每一次再跑 train_num
             for ii in range(para_dict['train_num']):
                 # 数据，伪标签，索引，真实标签
                 for x_, y_, inx_ in tqdm.tqdm(dataset_new_stable):

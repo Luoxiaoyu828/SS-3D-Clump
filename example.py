@@ -4,10 +4,7 @@ import tensorflow as tf
 from scipy import ndimage
 import os
 import matplotlib.pyplot as plt
-from matplotlib.backends.backend_pdf import PdfPages
 from deep_clustering_odc_new_0406 import ResNet_dc
-from model_ulti.get_tfrecord import tf_serialize_example
-import tqdm
 
 
 def scale_tf(img, scale):
@@ -53,7 +50,7 @@ def get_pic_png(data_cube, title, savepath=None):
         plt.close(fig)
 
 
-def get_label_by_trained_model_png(data_path, model, savepath):
+def get_label_by_trained_model_png(data_path, model, savepath=None):
     scale = 30
     temp = fits.getdata(data_path)
     temp_max = temp.max()
@@ -65,6 +62,7 @@ def get_label_by_trained_model_png(data_path, model, savepath):
     data = tf.expand_dims(data, -1)
     data = tf.expand_dims(data, 0)
     y_test_pred, _ = model.predict(data)
+    # print(y_test_pred)
     get_pic_png(data_cube, info + '\n %.3f_%.3f' % (y_test_pred[0, 0], y_test_pred[0, 1]), savepath)
 
 
@@ -72,6 +70,8 @@ if __name__ == '__main__':
 
     model_path = 'SS-3D-Clump_model/ss-3d-clump_model_all/deep_clustering_All.h5'
     ss_3d_clump_model = get_trained_model(model_path)
-    data_path = 'example_data/clump_fits/1_MWISP010.037-00.412+33.022.fits'
-    get_label_by_trained_model_png(data_path, ss_3d_clump_model)
+    data_path = 'example_data/clump_fits'
+    for i, item in enumerate(os.listdir(data_path)):
+        data_path_ = os.path.join(data_path, item)
+        get_label_by_trained_model_png(data_path_, ss_3d_clump_model, savepath='example_data/clump_fits/kk_%02d.png' % i)
 
