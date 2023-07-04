@@ -43,10 +43,7 @@ if __name__ == '__main__':
     labels = ckm.get_labels()
 
     # Plot after
-    labels[1] = 5
     axes[0, 1].scatter(x[:, 0], x[:, 1], c=labels, s=10)
-    # axes[0, 1].scatter(x[-1, 0], x[-1, 1], c=1, s=10, alpha=0)
     axes[0, 1].set_title("After clustering")
     plt.show()
-    # plt.savefig('kkkk.png', dpi=300)
-    # plt.close(fig)
+
