@@ -15,7 +15,7 @@ The SS-3D-Clump model consists of two main components:
 
 ## Prerequisites
 - Python 3.7
-- TensorFlow 2.0
+- TensorFlow 2.3
 - NumPy
 - Scikit-learn
 
@@ -40,7 +40,7 @@ If you have any questions or inquiries regarding the SS-3D-Clump model, please c
 We appreciate any feedback or suggestions to improve the model.
 
 ## Acknowledgments
-We would like to acknowledge the funding/support provided by [acknowledge funding/support sources here].
+We would like to acknowledge the funding/support provided by **.
 
 
 
