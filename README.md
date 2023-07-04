@@ -1,74 +1,50 @@
-<h2>Constrained KMeans</h2>
-Modified version of KMeans algorithm that takes into account
-partial information about the data.
+# SS-3D-Clump
 
-Given a partial list of known labels `init_labels`, Constrained KMeans
-finds a cluster configuration that complies with `init_labels`.
-`init_labels` is the same length as x.shape[0], which is why
-a second array `can_change` masks out which labels should be
-marked as known and which labels can change.
-Formally, the output of the algorithm is an array `labels` such that
-`np.all((labels[can_change == 0] == init_labels[can_change == 0]))` is `True`.
+## Overview
+SS-3D-Clump is a deep learning model for the automatic verification of molecular clump candidates. It combines a 3D convolutional neural network (CNN) with a semi-supervised clustering algorithm to jointly learn the network parameters and cluster assignments of the generated features.
 
-<<<<<<< HEAD
-Can be installed via (requires Python>=3.7)
-```bash
-pip install ConstrainedKMeans
-```
+## Model Architecture
+The SS-3D-Clump model consists of two main components:
 
-Example basic usage:
-```python
-import numpy as np
-from matplotlib import pyplot as plt
+1. Feature Extraction: This part of the model extracts deep features from the input data cubes representing the molecular clump candidates.
 
-from ConstrainedKMeans import ConstrainedKMeans as CKM
+2. Clustering: The Constrained-KMeans algorithm is used to cluster the extracted features. The class labels obtained from clustering are used as supervision to update the weights of the entire network.
 
-def run_test():
-    # Generate random x_dataset consisting of 5 gaussian centers
-    ppt = 100
-    free = 1000
-    x = []
-    init_labels = []
-    can_change = []
-    var = np.eye(2)
-    for i, mu in enumerate([[1, 1], [8, 8], [1, 8], [8, 1], [4, 4]]):
-        x.append(np.random.multivariate_normal(mu, var, ppt))
-        init_labels.append(np.full(ppt, i))
-        can_change.append(np.zeros(ppt))
-
-    # Add some free points (shown in yellow in the plot)
-    x.append(np.random.multivariate_normal([4, 4], np.eye(2) * 8, free))
-    init_labels.append(np.full(free, 5))
-    can_change.append(np.zeros(free) + 1)
-
-    x = np.vstack(x)
-    init_labels = np.hstack(init_labels)
-    can_change = np.hstack(can_change)
-
-    fig, axes = plt.subplots(1, 2, sharey=True, squeeze=False)
-
-    # Plot before
-    axes[0, 0].scatter(x[:, 0], x[:, 1], c=init_labels, s=10)
-    axes[0, 0].set_title("Before clustering (yellow points are free)")
-
-    # Fit labels
-    ckm = CKM(n_clusters=5)
-    ckm.fit(x, can_change, init_labels)
-    labels = ckm.get_labels()
-
-    # Plot after
-    axes[0, 1].scatter(x[:, 0], x[:, 1], c=labels, s=10)
-    axes[0, 1].set_title("After clustering")
-    plt.show()
-
-if __name__ == '__main__':
-    run_test()
-
-```
-
-<img src="https://github.com/ferrocactus/ConstrainedKMeans/blob/master/images/example.png" style="zoom:72%;" />
-=======
+![](images/model_structure.png)
 ![](images/3dcnn_structure.png)
 
-![](images/model_verify.png)
->>>>>>> d029ec5f1d5fd48cca39af267de344b1147eb1af
+## Prerequisites
+- Python 3.7
+- TensorFlow 2.0
+- NumPy
+- Scikit-learn
+
+## Usage
+1. Clone the repository:
+git clone https://github.com/Luoxiaoyu828/SS-3D-Clump.git
+
+## Example
+Please refer to the "example.py" file for a demonstration of how to use the SS-3D-Clump model on sample data.
+
+## References
+Link to the research paper (if available)
+Any additional references or citations related to the SS-3D-Clump model
+License
+This project is licensed under the MIT License.
+
+Feel free to use, modify, and distribute this model for research and educational purposes.
+
+## Contact
+If you have any questions or inquiries regarding the SS-3D-Clump model, please contact lxy@ctgu.edu.cn.
+
+We appreciate any feedback or suggestions to improve the model.
+
+## Acknowledgments
+We would like to acknowledge the funding/support provided by [acknowledge funding/support sources here].
+
+
+
+
+
+
+
