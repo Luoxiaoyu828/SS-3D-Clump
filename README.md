@@ -1,4 +1,4 @@
-# SS-3D-Clump
+# Semi-supervised deep learning for molecular clump verification (SS-3D-Clump)
 
 ## Overview
 SS-3D-Clump is a deep learning model for the automatic verification of molecular clump candidates. It combines a 3D convolutional neural network (CNN) with a semi-supervised clustering algorithm to jointly learn the network parameters and cluster assignments of the generated features.
@@ -27,7 +27,7 @@ git clone https://github.com/Luoxiaoyu828/SS-3D-Clump.git
 Please refer to the "example.py" file for a demonstration of how to use the SS-3D-Clump model on sample data.
 
 ## References
-Link to the research paper (if available)
+[Semi-supervised deep learning for molecular clump verification](https://www.aanda.org/articles/aa/pdf/2024/03/aa47341-23.pdf)
 Any additional references or citations related to the SS-3D-Clump model
 License
 This project is licensed under the MIT License.
