@@ -42,6 +42,27 @@ We appreciate any feedback or suggestions to improve the model.
 ## Acknowledgments
 We would like to acknowledge the funding/support provided by **.
 
+## Citation
+If you use this code in a scientific publication, I would appreciate citation/reference to this repository. 
+
+```
+@ARTICLE{2024A&A...683A.104L,
+       author = {{Luo}, Xiaoyu and {Zheng}, Sheng and {Jiang}, Zhibo and {Chen}, Zhiwei and {Huang}, Yao and {Zeng}, Shuguang and {Zeng}, Xiangyun},
+        title = "{Semi-supervised deep learning for molecular clump verification}",
+      journal = {\aap},
+     keywords = {dense matter, methods: data analysis, ISM: molecules},
+         year = 2024,
+        month = mar,
+       volume = {683},
+          eid = {A104},
+        pages = {A104},
+          doi = {10.1051/0004-6361/202347341},
+       adsurl = {https://ui.adsabs.harvard.edu/abs/2024A&A...683A.104L},
+      adsnote = {Provided by the SAO/NASA Astrophysics Data System}
+}
+```
+
+
 
 
 
